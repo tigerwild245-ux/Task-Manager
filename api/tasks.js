@@ -1,7 +1,7 @@
-// api/tasks.js - Using Vercel Blob Storage (Correct API)
-import { put, list } from '@vercel/blob';
+// api/tasks.js - Simplified Vercel Blob Storage
+import { put, list, del } from '@vercel/blob';
 
-const BLOB_FILENAME = 'tasks/data.json';
+const BLOB_PATH = 'tasks.json';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -11,97 +11,127 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
 
   try {
     if (req.method === 'GET') {
-      // Get all tasks from blob storage
       const tasks = await getTasks();
-      res.status(200).json({ success: true, tasks });
+      return res.status(200).json({ success: true, tasks });
     } 
-    else if (req.method === 'POST') {
-      // Add or update task
+    
+    if (req.method === 'POST') {
       const task = req.body;
-      const tasks = await getTasks();
       
+      if (!task || !task.title) {
+        return res.status(400).json({ error: 'Invalid task data' });
+      }
+      
+      const tasks = await getTasks();
       const existingIndex = tasks.findIndex(t => t.id === task.id);
       
       if (existingIndex >= 0) {
-        // Update existing task
         tasks[existingIndex] = task;
       } else {
-        // Add new task
         tasks.push(task);
       }
       
       await saveTasks(tasks);
-      res.status(200).json({ success: true, task });
+      return res.status(200).json({ success: true, task });
     }
-    else if (req.method === 'DELETE') {
-      // Delete task
+    
+    if (req.method === 'DELETE') {
       const { id } = req.query;
+      
+      if (!id) {
+        return res.status(400).json({ error: 'Task ID required' });
+      }
+      
       const tasks = await getTasks();
       const filteredTasks = tasks.filter(t => t.id !== parseInt(id));
       
       await saveTasks(filteredTasks);
-      res.status(200).json({ success: true });
+      return res.status(200).json({ success: true });
     }
-    else {
-      res.status(405).json({ error: 'Method not allowed' });
-    }
+    
+    return res.status(405).json({ error: 'Method not allowed' });
+    
   } catch (error) {
     console.error('API Error:', error);
-    res.status(500).json({ error: 'Internal server error', message: error.message });
+    return res.status(500).json({ 
+      error: 'Internal server error', 
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 }
 
-// Helper function to get tasks from blob storage
 async function getTasks() {
   try {
-    // List blobs to find our tasks file
-    const { blobs } = await list({ prefix: 'tasks/' });
+    // List all blobs
+    const { blobs } = await list();
     
-    if (blobs.length === 0) {
-      return []; // No tasks file exists yet
-    }
-    
-    // Get the tasks file URL
-    const tasksBlob = blobs.find(blob => blob.pathname === BLOB_FILENAME);
+    // Find our tasks file
+    const tasksBlob = blobs.find(blob => blob.pathname === BLOB_PATH);
     
     if (!tasksBlob) {
+      console.log('No tasks file found, returning empty array');
       return [];
     }
     
-    // Fetch the content from the blob URL
+    // Fetch the blob content
     const response = await fetch(tasksBlob.url);
     
-    if (response.ok) {
-      const data = await response.json();
-      return data;
+    if (!response.ok) {
+      console.error('Failed to fetch blob:', response.status);
+      return [];
     }
     
-    return [];
+    const text = await response.text();
+    
+    if (!text) {
+      return [];
+    }
+    
+    const tasks = JSON.parse(text);
+    return Array.isArray(tasks) ? tasks : [];
+    
   } catch (error) {
-    console.error('Error reading from blob:', error);
+    console.error('Error getting tasks:', error.message);
     return [];
   }
 }
 
-// Helper function to save tasks to blob storage
 async function saveTasks(tasks) {
   try {
-    // Put the tasks as a JSON string
-    const blob = await put(BLOB_FILENAME, JSON.stringify(tasks, null, 2), {
+    if (!Array.isArray(tasks)) {
+      throw new Error('Tasks must be an array');
+    }
+    
+    const jsonData = JSON.stringify(tasks, null, 2);
+    
+    // Delete old blob if it exists
+    try {
+      const { blobs } = await list();
+      const oldBlob = blobs.find(blob => blob.pathname === BLOB_PATH);
+      if (oldBlob) {
+        await del(oldBlob.url);
+      }
+    } catch (delError) {
+      console.log('No old blob to delete or delete failed:', delError.message);
+    }
+    
+    // Create new blob
+    const blob = await put(BLOB_PATH, jsonData, {
       access: 'public',
       contentType: 'application/json',
     });
     
-    console.log('Saved to blob:', blob.url);
+    console.log('Tasks saved successfully to:', blob.url);
     return blob;
+    
   } catch (error) {
-    console.error('Error saving to blob:', error);
+    console.error('Error saving tasks:', error.message);
     throw error;
   }
 }
