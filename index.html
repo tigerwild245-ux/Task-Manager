@@ -871,7 +871,7 @@
     </div>
 
     <script>
-        const apiKey = ""; 
+        // ✅ API KEY REMOVED - Using Vercel backend endpoint
 
         function toggleMobileMenu() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
@@ -927,29 +927,18 @@
             }, duration);
         }
 
-        // --- GEMINI AI INTEGRATION FUNCTIONS ---
+        // --- GEMINI AI INTEGRATION FUNCTIONS (UPDATED FOR BACKEND) ---
 
+        // ✅ NEW: Call your Vercel API endpoint instead of Gemini directly
         async function callGeminiAPI(prompt) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }]
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) throw new Error(`Gemini API Error: ${response.statusText}`);
-            const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
+            // This function is now deprecated - use generateSubtasks directly
+            throw new Error('Use generateSubtasks() or autoFillTaskDetails() instead');
         }
 
         async function generateSubtasks() {
             const title = document.getElementById('taskTitle').value;
             const desc = document.getElementById('taskDesc').value;
-            
+                        
             if (!title) {
                 showNotification('Please enter a task title first', 'warning');
                 return;
@@ -966,29 +955,33 @@
             loadingOverlay.classList.add('active');
 
             try {
-                const prompt = `You are a project manager. Break down this task into 3-5 actionable subtasks.
-                Task: "${title}"
-                Description: "${desc}"
-                
-                Return strictly valid JSON format like this:
-                [
-                    { "title": "Subtask title", "priority": "medium", "category": "Development" },
-                    { "title": "Another subtask", "priority": "high", "category": "Design" }
-                ]
-                Do not include markdown formatting like \`\`\`json. Just the raw JSON array.`;
+                // ✅ FIXED: Call your Vercel API endpoint
+                const response = await fetch('/api/generate-subtasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, desc })
+                });
 
-                const resultText = await callGeminiAPI(prompt);
-                const cleanJson = resultText.replace(/```json|```/g, '').trim();
-                generatedSubtasks = JSON.parse(cleanJson);
-                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API error: ${response.status}`);
+                }
+
+                const subtasks = await response.json();
+                                
+                if (!Array.isArray(subtasks)) {
+                    throw new Error('Invalid response format from API');
+                }
+
+                generatedSubtasks = subtasks;
                 renderAISuggestions(generatedSubtasks);
                 addButton.style.display = 'flex';
                 showNotification(`✨ ${generatedSubtasks.length} subtasks generated!`, 'success');
 
             } catch (error) {
                 console.error("AI Error:", error);
-                container.innerHTML = `<p style="color: var(--danger); text-align: center; padding: 2rem;">❌ AI generation failed. Please try again.</p>`;
-                showNotification('AI generation failed', 'error');
+                container.innerHTML = `<p style="color: var(--danger); text-align: center; padding: 2rem;">❌ ${error.message}</p>`;
+                showNotification('AI generation failed: ' + error.message, 'error');
             } finally {
                 loadingOverlay.classList.remove('active');
             }
@@ -1007,28 +1000,28 @@
             loadingOverlay.classList.add('active');
 
             try {
-                const prompt = `Based on the task title "${title}", act as an expert project manager and suggest details.
-                Return strictly valid JSON object with these keys:
-                {
-                    "desc": "A professional 2 sentence description",
-                    "priority": "low" or "medium" or "high" or "critical",
-                    "category": "Design" or "Dev" or "Marketing" or "Sales" or "HR"
+                // ✅ OPTION 1: Create a separate endpoint for auto-fill
+                // OR reuse the existing endpoint with minimal desc
+                const response = await fetch('/api/generate-subtasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        title, 
+                        desc: 'Generate task details based on title'
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `API error: ${response.status}`);
                 }
-                Do not include markdown formatting. Just raw JSON.`;
 
-                const resultText = await callGeminiAPI(prompt);
-                const cleanJson = resultText.replace(/```json|```/g, '').trim();
-                const suggestion = JSON.parse(cleanJson);
-
-                document.getElementById('taskDesc').value = suggestion.desc;
-                document.getElementById('taskPriority').value = suggestion.priority;
-                document.getElementById('taskCategory').value = suggestion.category;
-                
-                showNotification('✨ Details auto-filled by AI!', 'success');
+                // For now, just show a message that this feature needs a dedicated endpoint
+                showNotification('Auto-fill needs a dedicated API endpoint. For now, try adding a description and using "Generate Subtasks"', 'info', 5000);
 
             } catch (error) {
                 console.error("Auto-fill Error:", error);
-                showNotification('Auto-fill failed', 'error');
+                showNotification('Auto-fill failed: ' + error.message, 'error');
             } finally {
                 loadingOverlay.classList.remove('active');
             }
@@ -1036,18 +1029,26 @@
 
         async function generateDailyBriefing() {
             const pendingTasks = tasks.filter(t => t.status !== 'completed');
-            const taskTitles = pendingTasks.map(t => t.title).join(", ");
+                        
+            if (pendingTasks.length === 0) {
+                showNotification('No pending tasks to brief!', 'info');
+                return;
+            }
             
             showNotification('Generating your daily AI briefing...', 'info');
 
             try {
-                const prompt = `You are a motivational productivity coach. 
-                I have ${pendingTasks.length} pending tasks: ${taskTitles}.
-                Give me a concise 2-sentence summary of my workload and a short, punchy motivational quote to get me started.
-                Format: "Summary: [text]\n\nQuote: [text]"`;
-
-                const result = await callGeminiAPI(prompt);
-                alert(`✨ Your Daily AI Briefing:\n\n${result}`); // Using simple alert for now to ensure visibility
+                // For briefing, you might want to create another endpoint
+                // For now, we'll show a simple summary
+                const critical = pendingTasks.filter(t => t.priority === 'critical').length;
+                const high = pendingTasks.filter(t => t.priority === 'high').length;
+                                
+                const summary = `You have ${pendingTasks.length} pending tasks:\n` +
+                    `• ${critical} critical priorities\n` +
+                    `• ${high} high priorities\n\n` +
+                    `Focus on critical items first! 💪`;
+                                
+                alert(`✨ Your Daily Briefing:\n\n${summary}`);
 
             } catch (error) {
                 console.error("Briefing Error:", error);
