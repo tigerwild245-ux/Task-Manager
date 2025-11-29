@@ -40,7 +40,7 @@ import {
 
 import { Task, AppSettings, Priority, Status, Subtask } from './types';
 import * as Storage from './services/storageService';
-import { generatePresentationHTML } from './services/htmlGenerator.ts';
+import { generatePresentationHTML } from './services/htmlGenerator';
 
 // --- Constants & Utilities ---
 
@@ -458,7 +458,7 @@ const DashboardView = ({ tasks }: { tasks: Task[] }) => {
           <div key={i} className="glass-card p-6 rounded-2xl flex items-center justify-between">
             <div>
               <p className="text-slate-500 text-sm font-medium">{item.label}</p>
-              <h3 className={`text-3xl font-bold mt-1 ${item.color}`}>{item.val}</h3>
+              <h3 className="text-3xl font-bold mt-1 text-slate-800">{item.val}</h3>
             </div>
             <div className={`p-3 rounded-full bg-opacity-10 ${item.color.replace('text', 'bg')}`}>
               <item.icon className={item.color} size={24} />
@@ -856,7 +856,12 @@ const App = () => {
   };
 
   // Derived state
-  const uniqueUsers = Array.from(new Set(tasks.map(t => t.assignedTo))).filter((u): u is string => !!u);
+  const uniqueUsers = useMemo(() => 
+    Array.from(new Set(tasks.map(t => t.assignedTo)))
+      .filter((u: string): u is string => !!u),
+    [tasks]
+  );
+  
   const notificationCount = tasks.filter(t => t.status === 'overdue' || (t.status !== 'completed' && new Date(t.dueDate) < new Date(Date.now() + 86400000))).length;
 
   return (
