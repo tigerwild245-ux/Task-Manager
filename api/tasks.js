@@ -3,6 +3,9 @@ import { put, list, del } from '@vercel/blob';
 
 const BLOB_PATH = 'tasks.json';
 
+// Use the correct token name
+const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN || process.env.Task_READ_WRITE_TOKEN;
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -68,8 +71,8 @@ export default async function handler(req, res) {
 
 async function getTasks() {
   try {
-    // List all blobs
-    const { blobs } = await list();
+    // List all blobs with token
+    const { blobs } = await list({ token: BLOB_TOKEN });
     
     // Find our tasks file
     const tasksBlob = blobs.find(blob => blob.pathname === BLOB_PATH);
@@ -112,19 +115,20 @@ async function saveTasks(tasks) {
     
     // Delete old blob if it exists
     try {
-      const { blobs } = await list();
+      const { blobs } = await list({ token: BLOB_TOKEN });
       const oldBlob = blobs.find(blob => blob.pathname === BLOB_PATH);
       if (oldBlob) {
-        await del(oldBlob.url);
+        await del(oldBlob.url, { token: BLOB_TOKEN });
       }
     } catch (delError) {
       console.log('No old blob to delete or delete failed:', delError.message);
     }
     
-    // Create new blob
+    // Create new blob with token
     const blob = await put(BLOB_PATH, jsonData, {
       access: 'public',
       contentType: 'application/json',
+      token: BLOB_TOKEN,
     });
     
     console.log('Tasks saved successfully to:', blob.url);
