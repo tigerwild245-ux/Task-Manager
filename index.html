@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eee 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
         }
@@ -129,12 +129,12 @@
         .header h1 {
             font-size: 36px;
             font-weight: 700;
-            color: white;
+            colour: white;
             margin-bottom: 8px;
         }
 
         .header p {
-            color: rgba(255, 255, 255, 0.8);
+            colour: rgba(255, 255, 255, 0.8);
             font-size: 16px;
         }
 
@@ -144,7 +144,7 @@
             gap: 10px;
             padding: 14px 28px;
             background: white;
-            color: #667eea;
+            colour: #667eea;
             border: none;
             border-radius: 12px;
             font-weight: 600;
@@ -161,7 +161,7 @@
 
         .dark-mode .add-task-btn {
             background: #667eea;
-            color: white;
+            colour: white;
         }
 
         /* Search and Filter */
@@ -189,7 +189,7 @@
 
         .dark-mode .search-box input {
             background: rgba(26, 26, 46, 0.8);
-            color: white;
+            colour: white;
         }
 
         .search-box svg {
@@ -199,7 +199,7 @@
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
-            color: #999;
+            colour: #999;
         }
 
         .filter-box select {
@@ -215,7 +215,7 @@
 
         .dark-mode .filter-box select {
             background: rgba(26, 26, 46, 0.8);
-            color: white;
+            colour: white;
         }
 
         /* Stats Cards */
@@ -246,7 +246,7 @@
 
         .stat-card h3 {
             font-size: 14px;
-            color: #999;
+            colour: #999;
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -257,7 +257,7 @@
             font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-colour: transparent;
             background-clip: text;
         }
 
@@ -287,19 +287,19 @@
         }
 
         .task-card.priority-critical {
-            border-left-color: #ef4444;
+            border-left-colour: #ef4444;
         }
 
         .task-card.priority-high {
-            border-left-color: #f97316;
+            border-left-colour: #f97316;
         }
 
         .task-card.priority-medium {
-            border-left-color: #3b82f6;
+            border-left-colour: #3b82f6;
         }
 
         .task-card.priority-low {
-            border-left-color: #10b981;
+            border-left-colour: #10b981;
         }
 
         .task-card.completed {
@@ -326,14 +326,14 @@
 
         .task-checkbox.checked {
             background: #10b981;
-            border-color: #10b981;
+            border-colour: #10b981;
             position: relative;
         }
 
         .task-checkbox.checked::after {
             content: '✓';
             position: absolute;
-            color: white;
+            colour: white;
             font-size: 16px;
             top: 50%;
             left: 50%;
@@ -356,20 +356,20 @@
         }
 
         .task-description {
-            color: #666;
+            colour: #666;
             font-size: 15px;
             margin-bottom: 16px;
         }
 
         .dark-mode .task-description {
-            color: #aaa;
+            colour: #aaa;
         }
 
         .task-meta {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: centre;
         }
 
         .priority-badge {
@@ -383,38 +383,38 @@
 
         .priority-critical {
             background: #ef4444;
-            color: white;
+            colour: white;
         }
 
         .priority-high {
             background: #f97316;
-            color: white;
+            colour: white;
         }
 
         .priority-medium {
             background: #3b82f6;
-            color: white;
+            colour: white;
         }
 
         .priority-low {
             background: #10b981;
-            color: white;
+            colour: white;
         }
 
         .task-info {
             display: flex;
-            align-items: center;
+            align-items: centre;
             gap: 6px;
-            color: #666;
+            colour: #666;
             font-size: 14px;
         }
 
         .dark-mode .task-info {
-            color: #aaa;
+            colour: #aaa;
         }
 
         .task-info.overdue {
-            color: #ef4444;
+            colour: #ef4444;
             font-weight: 600;
         }
 
@@ -431,13 +431,13 @@
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: centre;
+            justify-content: centre;
         }
 
         .edit-btn {
             background: #3b82f6;
-            color: white;
+            colour: white;
         }
 
         .edit-btn:hover {
@@ -447,7 +447,7 @@
 
         .delete-btn {
             background: #ef4444;
-            color: white;
+            colour: white;
         }
 
         .delete-btn:hover {
@@ -466,8 +466,8 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            justify-content: centre;
+            align-items: centre;
             animation: fadeIn 0.3s ease;
         }
 
@@ -505,11 +505,11 @@
             margin-bottom: 8px;
             font-weight: 600;
             font-size: 14px;
-            color: #666;
+            colour: #666;
         }
 
         .dark-mode .form-group label {
-            color: #aaa;
+            colour: #aaa;
         }
 
         .form-group input,
@@ -527,15 +527,16 @@
         .dark-mode .form-group textarea,
         .dark-mode .form-group select {
             background: #0f0f1e;
-            border-color: #2a2a3e;
-            color: white;
+            border-colour: #2a2a3e;
+            colour: white;
         }
 
+       
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-colour:#667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -558,7 +559,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            colour: white;
         }
 
         .btn-primary:hover {
@@ -568,12 +569,12 @@
 
         .btn-secondary {
             background: #e5e7eb;
-            color: #333;
+            colour: #333;
         }
 
         .dark-mode .btn-secondary {
             background: #2a2a3e;
-            color: white;
+            colour: white;
         }
 
         .btn-secondary:hover {
@@ -631,7 +632,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                     <path d="M3 3v18h18"/>
                     <path d="M18 17V9"/>
                     <path d="M13 17V5"/>
@@ -642,7 +643,7 @@
 
             <nav>
                 <div class="nav-item active" onclick="switchView('dashboard')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                         <rect x="3" y="3" width="7" height="7"/>
                         <rect x="14" y="3" width="7" height="7"/>
                         <rect x="14" y="14" width="7" height="7"/>
@@ -652,7 +653,7 @@
                 </div>
 
                 <div class="nav-item" onclick="switchView('all')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                         <path d="M9 11l3 3L22 4"/>
                         <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
                     </svg>
@@ -660,7 +661,7 @@
                 </div>
 
                 <div class="nav-item" onclick="switchView('person')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
@@ -668,7 +669,7 @@
                 </div>
 
                 <div class="nav-item" onclick="switchView('date')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                         <line x1="16" y1="2" x2="16" y2="6"/>
                         <line x1="8" y1="2" x2="8" y2="6"/>
@@ -679,7 +680,7 @@
             </nav>
 
             <button class="theme-toggle" onclick="toggleTheme()">
-                <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                     <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                 </svg>
                 <span class="theme-text">Dark Mode</span>
@@ -694,8 +695,8 @@
                     <p>Manage and track your tasks efficiently</p>
                 </div>
                 <div style="display: flex; gap: 12px;">
-                    <button class="add-task-btn" onclick="exportToPresentation()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="add-task-btn" onclick="exportToPresentation()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); colour: white;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
                             <line x1="12" y1="15" x2="12" y2="3"/>
@@ -703,7 +704,7 @@
                         Export
                     </button>
                     <button class="add-task-btn" onclick="openModal()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"/>
                             <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
@@ -715,7 +716,7 @@
             <!-- Search and Filter -->
             <div class="controls">
                 <div class="search-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                         <circle cx="11" cy="11" r="8"/>
                         <path d="M21 21l-4.35-4.35"/>
                     </svg>
@@ -1012,67 +1013,182 @@
 
             if (filteredTasks.length === 0) {
                 container.innerHTML = `
-                    <div class="task-card" style="text-align: center; padding: 60px;">
-                        <h3 style="color: #999;">No tasks found</h3>
-                        <p style="color: #999; margin-top: 10px;">Create your first task to get started!</p>
+                    <div class="task-card" style="text-align: centre; padding: 60px;">
+                        <h3 style="colour: #999;">No tasks found</h3>
+                        <p style="colour: #999; margin-top: 10px;">Create your first task to get started!</p>
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = filteredTasks.map(task => {
-                const isOverdue = new Date(task.dueDate) < new Date() && task.status !== 'completed';
-                return `
-                    <div class="task-card priority-${task.priority} ${task.status === 'completed' ? 'completed' : ''}">
-                        <div class="task-header">
-                            <div class="task-checkbox ${task.status === 'completed' ? 'checked' : ''}" 
-                                 onclick="toggleTaskStatus(${task.id})"></div>
-                            <div class="task-content">
-                                <h3 class="task-title ${task.status === 'completed' ? 'completed' : ''}">${task.title}</h3>
-                                <p class="task-description">${task.description}</p>
-                                <div class="task-meta">
-                                    <span class="priority-badge priority-${task.priority}">${task.priority}</span>
-                                    ${task.assignee ? `
-                                        <span class="task-info">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                                                <circle cx="12" cy="7" r="4"/>
-                                            </svg>
-                                            ${task.assignee}
-                                        </span>
-                                    ` : ''}
-                                    ${task.dueDate ? `
-                                        <span class="task-info ${isOverdue ? 'overdue' : ''}">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                                <line x1="3" y1="10" x2="21" y2="10"/>
-                                            </svg>
-                                            ${new Date(task.dueDate).toLocaleDateString()}
-                                            ${isOverdue ? ' (Overdue)' : ''}
-                                        </span>
-                                    ` : ''}
-                                </div>
-                            </div>
-                            <div class="task-actions">
-                                <button class="edit-btn" onclick="editTask(${task.id})">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                                    </svg>
-                                </button>
-                                <button class="delete-btn" onclick="deleteTask(${task.id})">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6"/>
-                                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                                    </svg>
-                                </button>
-                            </div>
+            // Group tasks based on current view
+            if (currentView === 'person') {
+                renderTasksByPerson(filteredTasks, container);
+            } else if (currentView === 'date') {
+                renderTasksByDate(filteredTasks, container);
+            } else {
+                renderTasksNormal(filteredTasks, container);
+            }
+        }
+
+        // Render tasks grouped by person
+        function renderTasksByPerson(filteredTasks, container) {
+            const groupedTasks = {};
+            
+            filteredTasks.forEach(task => {
+                const assignee = task.assignee || 'Unassigned';
+                if (!groupedTasks[assignee]) {
+                    groupedTasks[assignee] = [];
+                }
+                groupedTasks[assignee].push(task);
+            });
+
+            let html = '';
+            Object.keys(groupedTasks).sort().forEach(assignee => {
+                const tasksForPerson = groupedTasks[assignee];
+                html += `
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="colour: white; font-size: 24px; margin-bottom: 20px; display: flex; align-items: centre; gap: 10px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            ${assignee} (${tasksForPerson.length} task${tasksForPerson.length !== 1 ? 's' : ''})
+                        </h3>
+                        <div style="display: grid; gap: 20px;">
+                            ${tasksForPerson.map(task => renderTaskCard(task)).join('')}
                         </div>
                     </div>
                 `;
-            }).join('');
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Render tasks grouped by date
+        function renderTasksByDate(filteredTasks, container) {
+            const groupedTasks = {};
+            
+            filteredTasks.forEach(task => {
+                if (task.dueDate) {
+                    const date = new Date(task.dueDate);
+                    const dateKey = date.toISOString().split('T')[0]; // YYYY-MM-DD
+                    const dateDisplay = date.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    if (!groupedTasks[dateKey]) {
+                        groupedTasks[dateKey] = {
+                            display: dateDisplay,
+                            date: date,
+                            tasks: []
+                        };
+                    }
+                    groupedTasks[dateKey].tasks.push(task);
+                } else {
+                    if (!groupedTasks['no-date']) {
+                        groupedTasks['no-date'] = {
+                            display: 'No Due Date',
+                            date: new Date('9999-12-31'),
+                            tasks: []
+                        };
+                    }
+                    groupedTasks['no-date'].tasks.push(task);
+                }
+            });
+
+            // Sort by date
+            const sortedKeys = Object.keys(groupedTasks).sort((a, b) => {
+                return groupedTasks[a].date - groupedTasks[b].date;
+            });
+
+            let html = '';
+            sortedKeys.forEach(key => {
+                const group = groupedTasks[key];
+                const isOverdue = group.date < new Date() && key !== 'no-date';
+                
+                html += `
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="colour: white; font-size: 24px; margin-bottom: 20px; display: flex; align-items: centre; gap: 10px; ${isOverdue ? 'colour: #fca5a5;' : ''}">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            ${group.display} ${isOverdue ? '(Overdue)' : ''} - ${group.tasks.length} task${group.tasks.length !== 1 ? 's' : ''}
+                        </h3>
+                        <div style="display: grid; gap: 20px;">
+                            ${group.tasks.map(task => renderTaskCard(task)).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Render tasks in normal view
+        function renderTasksNormal(filteredTasks, container) {
+            container.innerHTML = filteredTasks.map(task => renderTaskCard(task)).join('');
+        }
+
+        // Render individual task card
+        function renderTaskCard(task) {
+            const isOverdue = new Date(task.dueDate) < new Date() && task.status !== 'completed';
+            return `
+                <div class="task-card priority-${task.priority} ${task.status === 'completed' ? 'completed' : ''}">
+                    <div class="task-header">
+                        <div class="task-checkbox ${task.status === 'completed' ? 'checked' : ''}" 
+                             onclick="toggleTaskStatus(${task.id})"></div>
+                        <div class="task-content">
+                            <h3 class="task-title ${task.status === 'completed' ? 'completed' : ''}">${task.title}</h3>
+                            <p class="task-description">${task.description}</p>
+                            <div class="task-meta">
+                                <span class="priority-badge priority-${task.priority}">${task.priority}</span>
+                                ${task.assignee ? `
+                                    <span class="task-info">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                            <circle cx="12" cy="7" r="4"/>
+                                        </svg>
+                                        ${task.assignee}
+                                    </span>
+                                ` : ''}
+                                ${task.dueDate ? `
+                                    <span class="task-info ${isOverdue ? 'overdue' : ''}">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="16" y1="2" x2="16" y2="6"/>
+                                            <line x1="8" y1="2" x2="8" y2="6"/>
+                                            <line x1="3" y1="10" x2="21" y2="10"/>
+                                        </svg>
+                                        ${new Date(task.dueDate).toLocaleDateString()}
+                                        ${isOverdue ? ' (Overdue)' : ''}
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="edit-btn" onclick="editTask(${task.id})">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button class="delete-btn" onclick="deleteTask(${task.id})">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         // Filter tasks
@@ -1247,10 +1363,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eee 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 40px 20px;
-            color: #333;
+            colour: #333;
         }
 
         .container {
@@ -1259,8 +1375,8 @@
         }
 
         .header {
-            text-align: center;
-            color: white;
+            text-align: centre;
+            colour: white;
             margin-bottom: 50px;
             animation: fadeInDown 0.8s ease;
         }
@@ -1290,7 +1406,7 @@
             padding: 32px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            text-align: center;
+            text-align: centre;
             transition: transform 0.3s ease;
         }
 
@@ -1300,7 +1416,7 @@
 
         .stat-card h3 {
             font-size: 14px;
-            color: #999;
+            colour: #999;
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -1310,9 +1426,9 @@
         .stat-card .value {
             font-size: 56px;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eee 0%, #764ba2 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-colour: transparent;
             background-clip: text;
         }
 
@@ -1329,12 +1445,12 @@
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eee 0%, #764ba2 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-colour: transparent;
             background-clip: text;
             display: flex;
-            align-items: center;
+            align-items: centre;
             gap: 12px;
         }
 
@@ -1344,17 +1460,17 @@
 
         .priority-header {
             display: flex;
-            align-items: center;
+            align-items: centre;
             gap: 12px;
             margin-bottom: 20px;
             padding-bottom: 12px;
             border-bottom: 3px solid;
         }
 
-        .priority-header.critical { border-color: #ef4444; }
-        .priority-header.high { border-color: #f97316; }
-        .priority-header.medium { border-color: #3b82f6; }
-        .priority-header.low { border-color: #10b981; }
+        .priority-header.critical { border-colour: #ef4444; }
+        .priority-header.high { border-colour: #f97316; }
+        .priority-header.medium { border-colour: #3b82f6; }
+        .priority-header.low { border-colour: #10b981; }
 
         .priority-badge {
             padding: 8px 16px;
@@ -1363,12 +1479,12 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: white;
+            colour: white;
         }
 
         .priority-badge.critical { background: #ef4444; }
         .priority-badge.high { background: #f97316; }
-        .priority-badge.medium { background: #3b82f6; }
+        .priority-badge.medium { background: #3b7f6; }
         .priority-badge.low { background: #10b981; }
 
         .task-grid {
@@ -1377,7 +1493,7 @@
         }
 
         .task-item {
-            background: #f9fafb;
+            background:#f9fafb;
             padding: 24px;
             border-radius: 12px;
             border-left: 4px solid;
@@ -1389,10 +1505,10 @@
             transform: translateX(5px);
         }
 
-        .task-item.critical { border-left-color: #ef4444; }
-        .task-item.high { border-left-color: #f97316; }
-        .task-item.medium { border-left-color: #3b82f6; }
-        .task-item.low { border-left-color: #10b981; }
+        .task-item.critical { border-left-colour: #ef4444; }
+        .task-item.high { border-left-colour: #f97316; }
+        .task-item.medium { border-left-colour: #3b82f6; }
+        .task-item.low { border-left-colour: #10b981; }
 
         .task-item.completed {
             opacity: 0.6;
@@ -1402,7 +1518,7 @@
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #1f2937;
+            colour: #1f2937;
         }
 
         .task-title.completed {
@@ -1410,7 +1526,7 @@
         }
 
         .task-description {
-            color: #6b7280;
+            colour:#6b7280;
             margin-bottom: 16px;
             line-height: 1.6;
         }
@@ -1419,14 +1535,14 @@
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            align-items: center;
+            align-items: centre;
             font-size: 14px;
-            color: #6b7280;
+            colour: #6b7280;
         }
 
         .task-meta-item {
             display: flex;
-            align-items: center;
+            align-items: centre;
             gap: 6px;
         }
 
@@ -1440,28 +1556,28 @@
 
         .status-badge.completed {
             background: #d1fae5;
-            color: #065f46;
+            colour: #065f46;
         }
 
         .status-badge.pending {
             background: #fef3c7;
-            color: #92400e;
+            colour: #92400e;
         }
 
         .overdue {
-            color: #ef4444 !important;
+            colour: #ef4444 !important;
             font-weight: 600;
         }
 
         .empty-state {
-            text-align: center;
+            text-align: centre;
             padding: 60px;
-            color: #9ca3af;
+            colour: #9ca3af;
         }
 
         .footer {
-            text-align: center;
-            color: white;
+            text-align: centre;
+            colour: white;
             margin-top: 50px;
             opacity: 0.8;
             animation: fadeIn 1s ease 0.6s both;
@@ -1500,10 +1616,10 @@
                 padding: 20px;
             }
             .header {
-                color: #667eea;
+                colour: #667eea;
             }
             .footer {
-                color: #667eea;
+                colour: #667eea;
             }
         }
     </style>
@@ -1536,7 +1652,7 @@
 
         <div class="section">
             <h2 class="section-title">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColour" stroke-width="2">
                     <path d="M9 11l3 3L22 4"/>
                     <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
                 </svg>
@@ -1549,7 +1665,7 @@
                     <div class="priority-section">
                         <div class="priority-header ${priority}">
                             <span class="priority-badge ${priority}">${priority}</span>
-                            <span style="color: #6b7280; font-weight: 600;">${tasks.length} task${tasks.length !== 1 ? 's' : ''}</span>
+                            <span style="colour: #6b7280; font-weight: 600;">${tasks.length} task${tasks.length !== 1 ? 's' : ''}</span>
                         </div>
                         <div class="task-grid">
                             ${tasks.map(task => {
@@ -1607,4 +1723,4 @@
         }
     </script>
 </body>
-</html>2" ry="
+</html>
