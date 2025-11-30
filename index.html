@@ -1000,15 +1000,11 @@
             loadingOverlay.classList.add('active');
 
             try {
-                // ✅ OPTION 1: Create a separate endpoint for auto-fill
-                // OR reuse the existing endpoint with minimal desc
-                const response = await fetch('/api/generate-subtasks', {
+                // ✅ Call the dedicated auto-fill endpoint
+                const response = await fetch('/api/autofill-task', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        title, 
-                        desc: 'Generate task details based on title'
-                    })
+                    body: JSON.stringify({ title })
                 });
 
                 if (!response.ok) {
@@ -1016,8 +1012,14 @@
                     throw new Error(errorData.error || `API error: ${response.status}`);
                 }
 
-                // For now, just show a message that this feature needs a dedicated endpoint
-                showNotification('Auto-fill needs a dedicated API endpoint. For now, try adding a description and using "Generate Subtasks"', 'info', 5000);
+                const suggestion = await response.json();
+
+                // Fill in the form fields with AI suggestions
+                document.getElementById('taskDesc').value = suggestion.desc;
+                document.getElementById('taskPriority').value = suggestion.priority;
+                document.getElementById('taskCategory').value = suggestion.category;
+                
+                showNotification('✨ Details auto-filled by AI!', 'success');
 
             } catch (error) {
                 console.error("Auto-fill Error:", error);
