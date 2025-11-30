@@ -888,6 +888,7 @@
             }
         });
 
+        // Default tasks (will be overwritten by DB load if available)
         let tasks = [
             { id: 1, title: 'Redesign Homepage', desc: 'Implement glassmorphism aesthetics', priority: 'critical', category: 'design', status: 'in-progress', dueDate: '2025-12-01', assignee: 'Me', createdAt: '2025-11-01' },
             { id: 2, title: 'Fix API Latency', desc: 'Optimize database queries', priority: 'high', category: 'dev', status: 'pending', dueDate: '2025-12-05', assignee: 'John Doe', createdAt: '2025-11-02' },
@@ -925,6 +926,73 @@
                 note.classList.remove('show');
                 note.addEventListener('transitionend', () => note.remove());
             }, duration);
+        }
+
+        // ==================== DATABASE FUNCTIONS ====================
+
+        // Load tasks from database on page load
+        async function loadTasksFromDatabase() {
+            try {
+                const response = await fetch('/api/tasks');
+                if (!response.ok) {
+                    console.error('Failed to load tasks:', response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                if (data.success && data.tasks && data.tasks.length > 0) {
+                    tasks = data.tasks;
+                    showNotification('Tasks loaded from database', 'success');
+                } else {
+                    // Keep the default sample tasks if database is empty
+                    console.log('No tasks in database, using defaults');
+                }
+            } catch (error) {
+                console.error('Error loading tasks:', error);
+                showNotification('Failed to load tasks', 'error');
+            }
+        }
+
+        // Save a single task to database
+        async function saveTaskToDatabase(task) {
+            try {
+                const response = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(task)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to save task: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.success;
+            } catch (error) {
+                console.error('Error saving task:', error);
+                showNotification('Failed to save task to database', 'error');
+                return false;
+            }
+        }
+
+        // Delete a task from database
+        async function deleteTaskFromDatabase(taskId) {
+            try {
+                const response = await fetch(`/api/tasks?id=${taskId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to delete task: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                return data.success;
+            } catch (error) {
+                console.error('Error deleting task:', error);
+                showNotification('Failed to delete task from database', 'error');
+                return false;
+            }
         }
 
         // --- GEMINI AI INTEGRATION FUNCTIONS (UPDATED FOR BACKEND) ---
@@ -1084,14 +1152,16 @@
             });
         }
 
-        function addSuggestedTasks() {
+        // Modified addSuggestedTasks (replace existing)
+        async function addSuggestedTasks() {
             let count = 0;
             const parentTitle = document.getElementById('taskTitle').value;
+            const savePromises = [];
 
             generatedSubtasks.forEach((task, index) => {
                 const checkbox = document.getElementById(`ai-task-${index}`);
                 if (checkbox?.checked) {
-                    tasks.push({ 
+                    const newTask = { 
                         id: Date.now() + Math.random(), 
                         title: `[${parentTitle}] ${task.title}`,
                         desc: `AI-generated subtask`,
@@ -1100,12 +1170,15 @@
                         assignee: 'Team',
                         status: 'pending',
                         createdAt: new Date().toISOString()
-                    });
+                    };
+                    tasks.push(newTask);
+                    savePromises.push(saveTaskToDatabase(newTask));
                     count++;
                 }
             });
 
             if (count > 0) {
+                await Promise.all(savePromises);
                 showNotification(`Added ${count} AI subtasks!`, 'success');
                 generatedSubtasks = [];
                 closeModal();
@@ -1115,8 +1188,10 @@
             }
         }
 
-        window.onload = () => {
+        // Modified window.onload to load from database
+        window.onload = async () => {
             resizeCanvas();
+            await loadTasksFromDatabase(); // Load from database first
             render();
             if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
         };
@@ -1469,7 +1544,8 @@
             ev.dataTransfer.setData("text", id);
         }
 
-        function drop(ev, status) {
+        // Modified drop handler for Kanban (replace existing)
+        async function drop(ev, status) {
             ev.preventDefault();
             ev.currentTarget.classList.remove('drag-over');
             const id = parseInt(ev.dataTransfer.getData("text"));
@@ -1477,6 +1553,7 @@
             
             if (task && task.status !== status) {
                 task.status = status;
+                await saveTaskToDatabase(task);
                 if(status === 'completed') fireConfetti();
                 render();
                 showNotification(`Task moved to ${status}`, 'success');
@@ -1526,16 +1603,20 @@
             else bar.classList.remove('visible');
         }
 
-        function toggleStatus(id) {
+        // Modified toggleStatus (replace existing)
+        async function toggleStatus(id) {
             const task = tasks.find(t => t.id === id);
             task.status = task.status === 'completed' ? 'pending' : 'completed';
+            await saveTaskToDatabase(task);
             if (task.status === 'completed') fireConfetti();
             render();
             showNotification('Task status updated', 'success');
         }
 
-        function deleteTask(id) {
+        // Modified deleteTask (replace existing)
+        async function deleteTask(id) {
             if (confirm('Delete this task?')) {
+                await deleteTaskFromDatabase(id);
                 tasks = tasks.filter(t => t.id !== id);
                 render();
                 showNotification('Task deleted', 'info');
@@ -1574,7 +1655,8 @@
             document.getElementById('taskModal').classList.remove('active');
         }
 
-        document.getElementById('taskForm').addEventListener('submit', (e) => {
+        // Modified form submit handler (replace existing one)
+        document.getElementById('taskForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('taskId').value;
             const data = {
@@ -1587,24 +1669,33 @@
             };
 
             if(id) {
+                // Update existing task
                 const t = tasks.find(x => x.id == id);
                 Object.assign(t, data);
+                await saveTaskToDatabase(t);
                 showNotification('Task updated!', 'success');
             } else {
-                tasks.push({ 
+                // Create new task
+                const newTask = { 
                     ...data, 
                     id: Date.now(), 
                     status: 'pending',
                     createdAt: new Date().toISOString()
-                });
+                };
+                tasks.push(newTask);
+                await saveTaskToDatabase(newTask);
                 showNotification('Task created!', 'success');
             }
             closeModal();
             render();
         });
 
-        function bulkDelete() {
+        // Modified bulkDelete (replace existing)
+        async function bulkDelete() {
             if (confirm(`Delete ${selectedTasks.size} tasks?`)) {
+                const deletePromises = Array.from(selectedTasks).map(id => deleteTaskFromDatabase(id));
+                await Promise.all(deletePromises);
+                
                 tasks = tasks.filter(t => !selectedTasks.has(t.id));
                 const count = selectedTasks.size;
                 selectedTasks.clear();
@@ -1614,8 +1705,17 @@
             }
         }
 
-        function bulkComplete() {
-            tasks.forEach(t => { if(selectedTasks.has(t.id)) t.status = 'completed'; });
+        // Modified bulkComplete (replace existing)
+        async function bulkComplete() {
+            const updatePromises = [];
+            tasks.forEach(t => { 
+                if(selectedTasks.has(t.id)) {
+                    t.status = 'completed';
+                    updatePromises.push(saveTaskToDatabase(t));
+                }
+            });
+            
+            await Promise.all(updatePromises);
             showNotification(`${selectedTasks.size} tasks completed!`, 'success');
             selectedTasks.clear();
             updateBulkBar();
